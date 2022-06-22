@@ -36,5 +36,19 @@ namespace EmpTest
             var actual = employeeDetail.InsertEmployeeData(employee);
             Assert.AreEqual(expected, actual);
         }
+        //<summary>
+        //TC 3 : Update Details
+        //</summary>
+        [Test]
+        public void UpdatingEmployeeDetails()
+        {
+            employee.ID = 4;
+            employee.Name = "Athena";
+            employee.BasicPay = 56500;
+            var result = employeeDetail.UpdateSalary(employee);
+            var expected = result.BasicPay;
+            var actual = result.BasicPay;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
