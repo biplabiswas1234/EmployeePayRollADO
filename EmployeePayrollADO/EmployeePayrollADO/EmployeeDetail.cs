@@ -168,11 +168,37 @@ namespace EmployeePayrollADO
                     connection.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
+                throw new EmployeePayrollException(EmployeePayrollException.ExceptionType.NO_DATA_FOUND, "Data not found");
             }
             return employeeData;
+        }
+        public bool RemoveDetails(Employee employee)
+        {
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("RemoveEmpDetails", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ID", employee.ID);
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+
+                    if (result != 0)
+                    {
+                        Console.WriteLine("Contact is deleted");
+                        return true;
+                    }
+                    return false;
+                    connection.Close();
+                }
+            }
+            catch (Exception)
+            {
+                throw new EmployeePayrollException(EmployeePayrollException.ExceptionType.NO_DATA_FOUND, "Data not found");
+            }
         }
     }
 }
