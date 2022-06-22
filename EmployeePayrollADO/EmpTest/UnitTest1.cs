@@ -50,5 +50,17 @@ namespace EmpTest
             var actual = result.BasicPay;
             Assert.AreEqual(expected, actual);
         }
+        //<summary>
+        //TC 4 : Retrieve Data in DateRange
+        //</summary>
+        [Test]
+        public void Retrieving_Data_In_DateRange()
+        {
+            var fromDate = Convert.ToDateTime("2022-01-01");
+            var toDate = Convert.ToDateTime("2022-10-01");
+            var result = employeeDetail.EmployeeData_InDataRange(fromDate, toDate);
+            var expected = result.Count;
+            Assert.AreEqual(expected, result.Count);
+        }
     }
 }

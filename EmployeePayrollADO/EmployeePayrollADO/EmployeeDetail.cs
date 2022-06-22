@@ -127,5 +127,52 @@ namespace EmployeePayrollADO
             }
             return employee;
         }
+        public List<Employee> EmployeeData_InDataRange(DateTime fromDate, DateTime toDate)
+        {
+            Employee employee = new Employee();
+            List<Employee> employeeData = new List<Employee>();
+            SqlConnection connection = new SqlConnection(connectionstring);
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("EmpInDateRange", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@FromDate", fromDate);
+                    command.Parameters.AddWithValue("@ToDate", toDate);
+                    connection.Open();
+                    SqlDataReader rd = command.ExecuteReader();
+                    if (rd.HasRows)
+                    {
+                        while (rd.Read())
+                        {
+                            employee = new Employee
+                            {
+                                ID = rd.IsDBNull(0) ? default : rd.GetInt32(0),
+                                Name = rd.IsDBNull(1) ? default : rd.GetString(1),
+                                StartDate = rd.IsDBNull(11) ? default : rd.GetDateTime(2),
+                                Gender = rd.IsDBNull(5) ? default : rd.GetString(3),
+                                PhoneNumber = rd.IsDBNull(2) ? default : rd.GetInt64(4),
+                                Address = rd.IsDBNull(3) ? default : rd.GetString(5),
+                                Department = rd.IsDBNull(4) ? default : rd.GetString(6),
+                                BasicPay = rd.IsDBNull(6) ? default : rd.GetInt32(7),
+                                Deduction = rd.IsDBNull(7) ? default : rd.GetInt32(8),
+                                TaxablePay = rd.IsDBNull(8) ? default : rd.GetInt32(9),
+                                IncomeTax = rd.IsDBNull(9) ? default : rd.GetInt32(10),
+                                NetPay = rd.IsDBNull(10) ? default : rd.GetInt32(11),
+                            };
+                            employeeData.Add(employee);
+                            Console.WriteLine(employee.ID + "," + employee.Name + "," + employee.StartDate + "," + employee.Gender + "," + employee.PhoneNumber + "," + employee.Address + "," + employee.Department + "," + employee.BasicPay + "," + employee.Deduction + "," + employee.TaxablePay + "," + employee.IncomeTax + "," + employee.NetPay);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return employeeData;
+        }
     }
 }
