@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EmployeePayrollADO
 {
@@ -20,5 +18,6 @@ namespace EmployeePayrollADO
         public double TaxablePay { get; set; }
         public double IncomeTax { get; set; }
         public double NetPay { get; set; }
+
     }
 }
